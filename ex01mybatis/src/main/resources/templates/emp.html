@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>emp.html</title>
+</head>
+<body>
+<h1>사원목록</h1>
+<table>
+	<tr>
+		<td>사원번호</td>
+		<td>이름</td>
+		<td>급여</td>
+		<td>입사일자</td>
+	</tr>
+	<tr th:each="emp : ${list}">
+    	<td th:text="${emp.employeeId}"></td>
+    	<td th:text="${emp.firstName}"></td>
+    	<td th:text="${emp.salary}"></td>
+    	<td th:text="${emp.hireDate}"></td>
+  	</tr>
+</table>
+</body>
+</html>

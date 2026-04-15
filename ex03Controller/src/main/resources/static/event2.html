@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>event2</title>
+  </head>
+  <body>
+    <h2>이벤트 위임(그룹이벤트)</h2>
+    <input id="txt" /><button type="button" id="btn">등록</button>
+    <div id="list">
+      <div data-price="200" data-cnt="4">바나나</div>
+      <div data-price="1200" data-cnt="7">포도</div>
+      <div data-price="5200" data-cnt="9">키위</div>
+    </div>
+
+    <script>
+      document.querySelector("#btn").addEventListener("click", (e) => {
+        let text = document.querySelector("#txt");
+        let tag = `<div>${text.value}</div>`;
+        document.querySelector("#list").insertAdjacentHTML("beforeend", tag);
+        text.value = "";
+        text.focus();
+      });
+
+      // 이벤트 위임
+      document.querySelector("#list").addEventListener("click", e => {
+        e.target.style.backgroundColor = "Lightskyblue";
+        console.log(e.target.dataset.price);
+      })
+      
+      // 개별 이벤트 걸기 -> 권장사항이 아님
+      // document.querySelectorAll("#list div").forEach((el, idx) => {
+      //   el.addEventListener("click", (e) => {
+      //     e.target.style.backgroundColor = "yellow";
+      //   })
+      // });
+    </script>
+  </body>
+</html>

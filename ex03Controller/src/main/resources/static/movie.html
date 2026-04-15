@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>homework</title>
+  <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+</head>
+<body>
+  <div id="container">
+    <h3>박상원 homework</h1>
+      <input id="targetDT" placeholder="숫자 8자리 입력"><button type="button" id="btnSelect" class="btn btn-success">날짜등록</button>
+  
+      <div id="tableList" style="display: none;">
+        <table class="table-light table table-striped" >
+          <thead>
+            <tr>
+              <td>순위</td>
+              <td>전일대비</td>
+              <td>영화이름</td>
+              <td>개봉일</td>
+              <td>누적관객수</td>
+            </tr>
+          </thead>
+          <tbody id="movieList">
+  
+          </tbody>
+        </table>
+      </div>
+  </div>
+
+    <script>
+      document.querySelector("#btnSelect").addEventListener("click", e => {
+        
+        let dateTarget = document.querySelector("#targetDT");
+        let date = dateTarget.value;
+        let listTarget = document.querySelector("#movieList");
+        
+        if(!date) {
+          alert("날짜를 입력해주세요")
+        } else {
+          document.querySelector("#tableList").style.display = "block";
+          
+          fetch("https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=12664b24453335d2c3eca0fdc4b3b013&targetDt=" + date)
+          .then(resp => resp.json())
+          .then(data => {
+            let rawData = data.boxOfficeResult.dailyBoxOfficeList;
+            rawData.forEach(e => {
+              let tag = `
+                <tr>
+                  <td>${e.rank}</td>
+                  <td>${e.rankInten}</td>
+                  <td>${e.movieNm}</td>
+                  <td>${e.openDt}</td>
+                  <td>${e.audiAcc}</td>
+               </tr>
+              `;
+              listTarget.insertAdjacentHTML("beforeend", tag);
+            })
+            dateTarget.value = "";
+            dateTarget.focus();
+          })
+          .catch(e => alert(e));
+        }
+      })
+    </script>
+</body>
+</html>

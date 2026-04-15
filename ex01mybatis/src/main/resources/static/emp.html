@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>emp</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container-lg">
+      <div class="row">
+        <div class="col border">
+          <table class="table table-primary table-striped">
+            <thead>
+              <tr>
+                <td>사번</td>
+                <td>last name</td>
+                <td>salary</td>
+              </tr>
+            </thead>
+            <tbody id="empList"></tbody>
+          </table>
+        </div>
+
+        <div class="col border">
+          <div class="mb-3">
+            <label for="employeeId" class="form-label">employee id</label>
+            <input type="text" class="form-control" id="employeeId" />
+          </div>
+		  <div class="mb-3">
+            <label for="firstName" class="form-label">first name</label>
+            <input type="text" class="form-control" id="firstName" />
+          </div>
+          <div class="mb-3">
+            <label for="lastName" class="form-label">last name</label>
+            <input type="text" class="form-control" id="lastName" />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">email</label>
+            <input type="text" class="form-control" id="email" />
+          </div>
+          <div class="mb-3">
+            <label for="hireDate" class="form-label">hire date</label>
+            <input type="date" class="form-control" id="hireDate" />
+          </div>
+          <div class="mb-3">
+            <label for="jobId" class="form-label">job id</label>
+            <input type="text" class="form-control" id="jobId" />
+          </div>
+          <div class="mb-3">
+            <label for="salary" class="form-label">salary</label>
+            <input type="text" class="form-control" id="salary" />
+          </div>
+          <div>
+            <button type="button" id="btnInsert" class="btn btn-primary">
+              등록
+            </button>
+            <button type="button" id="btnUpdate" class="btn btn-success">
+              수정
+            </button>
+            <button type="button" id="btnDelete" class="btn btn-danger">
+              삭제
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      selectAll();
+
+      document.querySelector("#empList").addEventListener("click", (e) => {
+        let id = e.target.closest("tr").dataset.id;
+        selectOne(id);
+      });
+
+      /* ---------------------
+      사원 등록 버튼 이벤트
+      ---------------------*/
+      document.querySelector("#btnInsert").addEventListener("click", e => {
+        let employeeId = document.querySelector("#employeeId").value;
+        let lastName = document.querySelector("#lastName").value;
+        let email = document.querySelector("#email").value;
+        let hireDate = document.querySelector("#hireDate").value;
+        let jobId = document.querySelector("#jobId").value;
+
+        fetch(`/api/emp`, {
+          method: "POST",
+          body: JSON.stringify({
+            employeeId,
+            lastName,
+            email,
+            hireDate,
+            jobId
+          }),
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        })
+        .then(resp => resp.json())
+        .then(data => {
+          alert("등록완료");
+          console.log(data);
+          selectAll();
+        })
+        .catch(e => console.log(e))
+      })
+      
+      /*-------------------
+      사원 수정 버튼 이벤트
+      ---------------------*/
+      document.querySelector("#btnUpdate").addEventListener("click", (e) => {
+          let empIdLabel = document.querySelector("#employeeId");
+          let firstNameLabel = document.querySelector("#firstName");
+          let salaryLabel = document.querySelector("#salary");
+
+          let employeeId = empIdLabel.value;
+          let firstName = firstNameLabel.value;
+          let salary = salaryLabel.value;
+
+          fetch(`/api/emp`, {
+            method: "PUT",
+            body: JSON.stringify({
+            	employeeId,
+            	firstName,
+            	salary,
+          	  }),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              alert("수정완료");
+              console.log(data);
+              selectAll();
+            })
+            .catch(e => console.log(e));
+        });
+      
+      /* ----------------
+      사원 삭제 버튼 이벤트
+      --------------------*/
+      document.querySelector("#btnDelete").addEventListener("click", (e) => {
+        let id = document.querySelector("#employeeId").value;
+        fetch(`/api/emp/${id}`, {
+          method: "DELETE",
+        }).then((resp) => {
+          console.log(resp);
+          alert("삭제완료");
+          selectAll();
+          employeeId.value = "";
+          firstName.value = "";
+          lastName.value = "";
+          email.value = "";
+          jobId.value = "";
+          hireDate.value = "";
+          salary.value = "";
+        });
+      });
+
+      /* ---------------
+      사원 한명 조회
+      -------------------*/
+      function selectOne(id) {
+        fetch(`/api/emp/${id}`)
+          .then((response) => response.json())
+          .then((post) => {
+            // id값은 변수로 바로 가지고 올 수 있다.
+            employeeId.value = post.employeeId;
+            firstName.value = post.firstName;
+            lastName.value = post.lastName;
+            email.value = post.email;
+            jobId.value = post.jobId;
+            hireDate.value = post.hireDate;
+            salary.value = post.salary;
+          });
+      }
+
+      /* ---------------
+      사원 전체 조회
+      -------------------*/
+      function selectAll() {
+        fetch("/api/emp")
+          .then((response) => response.json())
+          .then((post) => {
+            empList.innerHTML = "";
+            post.forEach((e) => {
+              let tag = `
+                <tr data-id = ${e.employeeId}>
+                  <td>${e.employeeId}</td>
+                  <td>${e.lastName}</td>
+                  <td>${e.salary}</td>
+                </tr>
+                `;
+              // document.querySelector("#postList")
+              empList.insertAdjacentHTML("beforeend", tag);
+            });
+          });
+      }
+    </script>
+  </body>
+</html>
