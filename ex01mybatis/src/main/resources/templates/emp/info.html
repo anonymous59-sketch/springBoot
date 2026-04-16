@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>empInfo</title>
+</head>
+<body>
+<div layout:fragment="content">
+<h3>사원정보</h3>
+<table>
+	<tr>
+		<td>사원번호</td>
+		<td th:text="${emp.employeeId}"></td>
+	</tr>
+	<tr>
+		<td>사원명</td>
+		<td th:text="|${emp.firstName} ${emp.lastName}|"></td>
+	</tr>
+	<tr>
+		<td>급여</td>
+		<td th:text="${emp.salary}"></td>
+	</tr>
+	<tr>
+		<td>입사일자</td>
+		<td th:text="${emp.hireDate}"></td>
+	</tr>
+	<tr>
+		<td>직업</td>
+		<td th:text="${emp.jobId}"></td>
+	</tr>
+	<tr>
+		<td colspan="2"><a th:href="@{/emp/list}">처음으로 돌아가기</a></td>
+	</tr>
+</table>
+</div>
+</body>
+</html>

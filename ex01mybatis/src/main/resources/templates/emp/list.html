@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>empList</title>
+<style>
+	.back {background-color: Lightskyblue;}
+	.bold {font-weight: bold;}
+	.red {color: red;}
+</style>
+</head>
+<body>
+<div layout:fragment="content">
+<h1>사원목록</h1>
+    	<!--/* <a th:href="@{/emp/register}">등록</a> */-->
+<div>사원수: <span>[[${#lists.size(list)}]] 명</span></div>
+<table>
+	<tr>
+		<td>사원번호</td>
+		<td>순번</td>
+		<td>이름</td>
+		<td>급여</td>
+		<td>입사일자</td>
+		<td>보너스</td>
+		<td>수정</td>
+		<td>삭제</td>
+	</tr>
+	<tr th:each="emp : ${list}" th:class="${empStat.even} ? back : _">
+    	<td th:text="${emp.employeeId}"></td>
+    	<td>[[${empStat.count}]]</td>
+    	<td><a th:text="${emp.lastName}" th:href="@{/emp/info(id=${emp.employeeId})}"></a></td>
+    	<td th:text="${#numbers.formatInteger (emp.salary, 3, 'COMMA')}" 
+    	class="bold" th:classappend="${emp.salary>10000} ? 'red' : _"></td>
+    	<td th:text="${#dates.format(emp.hireDate, 'yyyy-MM-dd')}"></td>
+    	<td>
+    		<span th:if="${emp.salary>10000}">있음</span>
+    		<span th:unless="${emp.salary>10000}">없음</span>
+    	</td>
+    	<td>
+    	<a th:href="@{/emp/update(id=${emp.employeeId})}">수정</a>
+    	</td>
+    	<td>
+    	<a th:href="@{/emp/delete(id=${emp.employeeId})}">삭제</a>
+    	</td>
+  	</tr>
+</table>
+<div th:insert="~{layout/paging::page(1,5)}">
+</div>
+<script th:inline="javascript">
+	let empList = /*[[${list}]]*/[];
+	console.log(empList[0].firstName);
+</script>
+</div>
+</body>
+</html>

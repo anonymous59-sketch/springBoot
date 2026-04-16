@@ -2,6 +2,8 @@ package com.example.demo.emp;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
@@ -18,8 +20,8 @@ public class EmployeeVO {
 	private String lastName;
 	private String email;
 	private String phoneNumber;
-	
 	@JsonFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date hireDate;
 	private String jobId;
 	private Double salary;

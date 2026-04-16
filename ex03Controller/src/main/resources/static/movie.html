@@ -13,8 +13,8 @@
 </head>
 <body>
   <div id="container">
-    <h3>박상원 homework</h1>
-      <input id="targetDT" placeholder="숫자 8자리 입력"><button type="button" id="btnSelect" class="btn btn-success">날짜등록</button>
+    <h3>박상원 homework</h3>
+      <input type="date" id="targetDT" placeholder="숫자 8자리 입력"><button type="button" id="btnSelect" class="btn btn-success">날짜등록</button>
   
       <div id="tableList" style="display: none;">
         <table class="table-light table table-striped" >
@@ -38,7 +38,7 @@
       document.querySelector("#btnSelect").addEventListener("click", e => {
         
         let dateTarget = document.querySelector("#targetDT");
-        let date = dateTarget.value;
+        let date = dateTarget.value.split("-").join("");
         let listTarget = document.querySelector("#movieList");
         
         if(!date) {
@@ -50,6 +50,7 @@
           .then(resp => resp.json())
           .then(data => {
             let rawData = data.boxOfficeResult.dailyBoxOfficeList;
+            listTarget.innerHTML = "";
             rawData.forEach(e => {
               let tag = `
                 <tr>
@@ -62,8 +63,6 @@
               `;
               listTarget.insertAdjacentHTML("beforeend", tag);
             })
-            dateTarget.value = "";
-            dateTarget.focus();
           })
           .catch(e => alert(e));
         }
