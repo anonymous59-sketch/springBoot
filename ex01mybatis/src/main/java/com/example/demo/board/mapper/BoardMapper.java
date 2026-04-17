@@ -8,7 +8,10 @@ import com.example.demo.board.BoardVO;
 
 @Mapper
 public interface BoardMapper {
-	List<BoardVO> selectAll();
+	
+	int selectAll_COUNT(BoardVO bd);
+
+	List<BoardVO> selectAll(BoardVO bd);
 	BoardVO selectOne(int bno);
 	int insert(BoardVO bd);
 	int update(BoardVO bd);

@@ -37,6 +37,10 @@
           <th>작성일자</th>
           <td th:text="${board.regdate}"></td>
         </tr>
+		<tr>
+          <th>첨부파일 다운받기</th>
+          <td><a th:href="@{/board/download/{filename}(filename=${board.attach})}" th:text="${board.attach}"></a> </td>
+        </tr>
       </table>
       <button th:onclick="|location.href='update?bno=${board.bno}'|">
         수정

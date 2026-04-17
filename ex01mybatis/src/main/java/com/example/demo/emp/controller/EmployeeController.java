@@ -10,15 +10,39 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.emp.EmployeeVO;
 import com.example.demo.emp.mapper.EmployeeMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class EmployeeController {
 	@Autowired
 	EmployeeMapper employeeMapper;
 	
-	@GetMapping("/emp/list")
-	public String empList(Model model) {
-		model.addAttribute("list", employeeMapper.selectAll(null));
+	// 커맨드 핸들러, (받는 객체 = 커맨드객체)
+	@GetMapping({"/emp/list", "/"})
+	public String empList(@ModelAttribute("emp") EmployeeVO vo, 
+						  Model model, 
+						  @RequestParam(required = false, defaultValue = "1") int pageNum) {
+		
+		PageInfo<EmployeeVO> page = PageHelper.startPage(pageNum, 5)
+				.doSelectPageInfo(() -> employeeMapper.selectAll(vo));
+		
+		log.info("TotalCount : {}, CurrentPage : {}, PageSize : {}, IsNextPage : {}, IsPrevPage : {}, getPrePage : {}, getNextPage : {}, NavigatepageNums : {}"
+				   , page.getTotal()
+				   , page.getPageNum()
+				   , page.getPageSize()
+				   , page.isHasNextPage() 
+				   , page.isHasPreviousPage()
+				   , page.getPrePage()
+				   , page.getNextPage()
+				   , page.getNavigatepageNums());
+		
+		System.out.println(page.getList());
+		
+		model.addAttribute("pageInfo", page);
 		return "emp/list";
 	}
 	

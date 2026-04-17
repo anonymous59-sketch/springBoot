@@ -18,6 +18,23 @@
       <header>
         <h1 class="text-center">게시판</h1>
       </header>
+      <form th:object="${bd}" name="frm">
+		<input type="hidden" name="pageNum" value="1">
+	
+		<div>
+		<label for="title" class="form-label">책 제목</label>
+		<input th:field = "*{title}"> 
+		</div>
+	
+		<div>
+		<label for="content" class="form-label">내용</label>
+		<input th:field = "*{content}">
+		</div>
+	
+		<button type="button" onclick="init()">초기화</button>
+		<button>조회</button>
+	  </form>
+	  
       <main class="card">
         <div class="card-header">
           <div class=" row justify-content-between">
@@ -40,7 +57,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr th:each="board : ${list}">
+              <tr th:each="board : ${pageInfo.list}">
                 <td th:text="${board.bno}">1</td>
                 <td
                   th:text="${board.title}"
@@ -57,19 +74,34 @@
           </table>
         </div>
       </main>
+      
+      <div th:insert="~{layout/paging::page(${pageInfo})}">
+      </div>
     </div>
 
     <script th:inline="javascript">
     
-   	  const result = [[${result}]];
+   	  /* const result = [[${result}]];
         if( result ) {
       	  alert("등록완료");
         } 
-      
+       */
+       
+      function gopage(pageNum){
+   		frm.pageNum.value = pageNum;
+   		frm.submit();
+   	  }
+       
       const btnRegister = document.querySelector("#btnRegister");
       btnRegister.addEventListener("click", ()=>{
       	location.href="register";
       })
+      
+      function init() {
+    	  /* title.value = "";
+    	  content.value = ""; */
+    	  location.href = "list";
+	  }
     </script>
     </div>
   </body>

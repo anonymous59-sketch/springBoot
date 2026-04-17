@@ -20,4 +20,5 @@ public class BoardVO {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date updatedate;
+	private String attach;
 }

@@ -6,14 +6,17 @@
 
 </head>
 <body>
-<div th:fragment="page(start, end)">
+<div th:fragment="page(pageInfo)">
 <nav aria-label="Page navigation example">
 <ul class="pagination">
-  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+  <li class="page-item" th:if="${pageInfo.hasPreviousPage}">
+  <a class="page-link" th:onclick="gopage([[${pageInfo.prePage}]])">Previous</a></li>
   
-  <li class="page-item" th:each="i : ${#numbers.sequence(start, end)}"><a class="page-link" href="#">[[${i}]]</a></li>
+  <li class="page-item" th:each="i : ${pageInfo.navigatepageNums}">
+  <a class="page-link" th:onclick="gopage([[${i}]])">[[${i}]]</a></li>
   
-  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+  <li class="page-item" th:if="${pageInfo.hasNextPage}">
+  <a class="page-link" th:onclick="gopage([[${pageInfo.nextPage}]])">Next</a></li>
 </ul>
 </nav>
 </div>

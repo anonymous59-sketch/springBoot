@@ -10,9 +10,13 @@ import com.example.demo.emp.EmployeeVO;
 @Mapper
 
 public interface EmployeeMapper {
+	
+	int selectAll_COUNT(EmployeeVO emp);
+	
 	List<EmployeeVO> selectAll(EmployeeVO emp);
 	EmployeeVO selectOne(int empid);
 	int insert(EmployeeVO emp);
 	int update(EmployeeVO emp);
 	int delete(int id);
+	
 }

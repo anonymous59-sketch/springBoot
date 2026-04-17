@@ -2,49 +2,62 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.emp.mapper.EmployeeMapper">
+
+	<sql id="criteria">
+		<where>
+			<if test="departmentId != null">
+				AND department_id = #{departmentId}
+			</if>
+			<if test="managerId != null">
+				AND manager_id = #{managerId}
+			</if>
+			<if test="firstName != null">
+				AND (first_name LIKE UPPER('%' || #{firstName} || '%')
+				OR
+				first_name LIkE LOWER('%' || #{firstName} || '%'))
+			</if>
+		</where>
+	</sql>
+
+	<select id="selectAll_COUNT" resultType="int">
+		SELECT COUNT(*) 
+		FROM   employees
+		<include refid="criteria"></include>
+	</select>
+
 	<select id="selectAll">
 		SELECT *
 		FROM   employees
-		<where>
-		<if test="departmentId != null">
-		AND    department_id = #{departmentId}
-		</if>
-		<if test="managerId != null">
-		AND    manager_id = #{managerId}
-		</if>
-		<if test="firstName != null">
-		AND    first_name LIKE UPPER('%' || #{firstName} || '%')
-		OR     first_name LIkE LOWER('%' || #{firstName} || '%')
-		</if>
-		</where>
+		<include refid="criteria"></include>
 	</select>
-	<select id ="selectOne">
+
+	<select id="selectOne">
 		SELECT *
 		FROM   employees
 		WHERE  employee_id = #{empid}
 	</select>
-	<insert id = "insert">
+	<insert id="insert">
 		INSERT INTO employees (employee_id
 							 , last_name
 							 , email
 							 , hire_date
 							 , job_id)
-		VALUES                (#{employeeId}
+		VALUES 				  (#{employeeId}
 							 , #{lastName}
 							 , #{email}
 							 , #{hireDate}
 							 , #{jobId})
 	</insert>
-	
-	<update id = "update">
+
+	<update id="update">
 		UPDATE employees
 		SET    first_name = #{firstName},
-		salary = #{salary}
+			   salary = #{salary}
 		WHERE  employee_id = #{employeeId}
 	</update>
-	
-	<delete id = "delete">
-		DELETE FROM employees 
+
+	<delete id="delete">
+		DELETE FROM employees
 		WHERE       employee_id = ${employeeId}
 	</delete>
 </mapper>

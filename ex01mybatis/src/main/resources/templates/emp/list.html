@@ -14,8 +14,31 @@
 <body>
 <div layout:fragment="content">
 <h1>사원목록</h1>
+<form th:object="${emp}" name="frm">
+
+	<input type="hidden" name="pageNum" value="1">
+
+	<div>
+	<label for="departmentId" class="form-label">departmentId</label>
+	<input th:field = "*{departmentId}"> 
+	</div>
+
+	<div>
+	<label for="managerId" class="form-label">managerId</label>
+	<input th:field = "*{managerId}">
+	</div>
+
+	<div>
+	<label for="firstName" class="form-label">firstName</label>
+	<input th:field = "*{firstName}">
+	</div>
+
+	<button type="reset">초기화</button>
+	<button>조회</button>
+</form>
+
     	<!--/* <a th:href="@{/emp/register}">등록</a> */-->
-<div>사원수: <span>[[${#lists.size(list)}]] 명</span></div>
+<div>사원수: <span>[[${pageInfo.total}]] 명</span></div>
 <table>
 	<tr>
 		<td>사원번호</td>
@@ -27,7 +50,7 @@
 		<td>수정</td>
 		<td>삭제</td>
 	</tr>
-	<tr th:each="emp : ${list}" th:class="${empStat.even} ? back : _">
+	<tr th:each="emp : ${pageInfo.list}" th:class="${empStat.even} ? back : _">
     	<td th:text="${emp.employeeId}"></td>
     	<td>[[${empStat.count}]]</td>
     	<td><a th:text="${emp.lastName}" th:href="@{/emp/info(id=${emp.employeeId})}"></a></td>
@@ -46,11 +69,16 @@
     	</td>
   	</tr>
 </table>
-<div th:insert="~{layout/paging::page(1,5)}">
+<div th:insert="~{layout/paging::page(${pageInfo})}">
 </div>
+
+<!--/* <div>[[${pageInfo}]]</div> */-->
 <script th:inline="javascript">
-	let empList = /*[[${list}]]*/[];
-	console.log(empList[0].firstName);
+	function gopage(pageNum){
+		frm.pageNum.value = pageNum;
+		frm.submit();
+	}
+	
 </script>
 </div>
 </body>
