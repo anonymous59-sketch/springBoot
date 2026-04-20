@@ -22,7 +22,21 @@ public class EmployeeVO {
 	private int departmentId;
 	
 	// 생성자
+	EmployeeVO() {};
 	
+	public EmployeeVO(int employeeId, String firstName) {
+		super();
+		this.employeeId = employeeId;
+		this.firstName = firstName;
+	}
+
+	public EmployeeVO(int employeeId, String firstName, double salary) {
+		super();
+		this.employeeId = employeeId;
+		this.firstName = firstName;
+		this.salary = salary;
+	}
+
 	// 메소드
 	public int getEmployeeId() {
 		return employeeId;
@@ -90,4 +104,11 @@ public class EmployeeVO {
 	public void setDepartmentId(int departmentId) {
 		this.departmentId = departmentId;
 	}
+
+	@Override
+	public String toString() {
+		return "EmployeeVO [employeeId=" + employeeId + ", firstName=" + firstName + "]";
+	}
+
+	
 }
