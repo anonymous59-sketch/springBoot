@@ -1,10 +1,10 @@
-package com.example.demo.emp.mapper;
+package com.example.demo.department.mapper;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.demo.emp.DepartmentVO;
+import com.example.demo.department.service.DepartmentVO;
 
 @Mapper
 public interface DepartmentMapper {

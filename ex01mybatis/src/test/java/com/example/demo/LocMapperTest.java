@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.example.demo.emp.LocationVO;
-import com.example.demo.emp.mapper.LocationMapper;
+import com.example.demo.location.mapper.LocationMapper;
+import com.example.demo.location.service.LocationVO;
 
 @SpringBootTest
 public class LocMapperTest {

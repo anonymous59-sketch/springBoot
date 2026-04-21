@@ -1,4 +1,4 @@
-package com.example.demo.board;
+package com.example.demo.board.service;
 
 import java.util.Date;
 

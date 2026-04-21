@@ -1,10 +1,10 @@
-package com.example.demo.emp.mapper;
+package com.example.demo.location.mapper;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.demo.emp.LocationVO;
+import com.example.demo.location.service.LocationVO;
 
 @Mapper
 

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>InsertPage</title>
+</head>
+<body>
+	
+		 <form th:object="${list}" method="post">
+			<div class="col border">
+				<div class="mb-3">
+					<label for="slipNo" class="form-label">전표번호</label> <input
+						type="text" class="form-control" th:field = "*{slipNo}" />
+				</div>
+				<div class="mb-3">
+					<label for="firstName" class="form-label">금액</label> <input
+						type="text" class="form-control" th:field = "*{slipAmount}" />
+				</div>
+				<div class="mb-3">
+					<label for="lastName" class="form-label">발생일</label> <input
+						type="text" class="form-control" th:field = "*{slipDt}" />
+				</div>
+				<div class="mb-3">
+					<label for="email" class="form-label">정산일</label> <input
+						type="text" class="form-control" th:field = "*{salDt}" />
+				</div>
+				<div class="mb-3">
+					<label for="hireDate" class="form-label">고객명</label> <input
+						type="text" class="form-control" th:field = "*{customer}" />
+				</div>
+				<div class="mb-3">
+					<label for="jobId" class="form-label">계좌번호</label> <input
+						type="text" class="form-control" th:field = "*{bankAcct}" />
+				</div>
+				
+				<div>
+					<button th:if="*{slipNo == null}" formaction="/slip/insert" type="submit"
+						id="btnInsert" class="btn btn-primary">등록</button>
+					<th:block th:unless="*{slipNo == null}">
+						<button type="submit" formaction="/emp/update" id="btnUpdate" class="btn btn-success">
+							수정</button>
+						<button type="button" th:onclick="|location.href='/emp/delete?id=${emp.employeeId}'|" id="btnDelete" class="btn btn-danger">
+							삭제</button>
+					</th:block>
+				</div>
+			</div>
+		</form>
+</body>
+</html>

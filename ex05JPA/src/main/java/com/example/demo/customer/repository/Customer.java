@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.customer.repository;
 
 import java.sql.Timestamp;
 
@@ -10,11 +10,19 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.Transient;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 @Entity
+@Builder
 public class Customer {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -24,6 +32,8 @@ public class Customer {
 	
 	@Column(length = 20, nullable = false, unique = true)
 	private String phone;
+	
+	private Integer age;
 	
 	@Temporal(TemporalType.DATE)
 	private Timestamp regdate;

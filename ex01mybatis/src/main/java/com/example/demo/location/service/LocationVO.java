@@ -1,4 +1,4 @@
-package com.example.demo.emp;
+package com.example.demo.location.service;
 
 import lombok.Data;
 

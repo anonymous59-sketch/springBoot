@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.reply.controller;
 
 import java.util.List;
 
@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.reply.repository.Reply;
+import com.example.demo.reply.repository.ReplyRepository;
 
 @RestController
 public class ReplyRestController {

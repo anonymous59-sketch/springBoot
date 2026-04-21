@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.demo.emp.EmployeeVO;
+import com.example.demo.emp.service.EmployeeVO;
 
 //@Component + 프록시(대향)클래스 구현
 @Mapper

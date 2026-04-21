@@ -21,10 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.board.BoardVO;
-import com.example.demo.board.mapper.BoardMapper;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.example.demo.board.service.BoardService;
+import com.example.demo.board.service.BoardVO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,30 +32,15 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RequestMapping("/board")
 public class BoardController {
-	final BoardMapper boardMapper;	
+	final BoardService boardService;	
 	
 	// 전체조회
 	@GetMapping("/list")
 	public String list(@ModelAttribute("bd") BoardVO vo,
 					 Model model,
 					 @RequestParam(required = false, defaultValue = "1") int pageNum) {
-		PageInfo<BoardVO> page = PageHelper.startPage(pageNum, 5)
-				.doSelectPageInfo(() -> boardMapper.selectAll(vo));
 		
-		//로그 확인용
-		log.info("TotalCount : {}, CurrentPage : {}, PageSize : {}, IsNextPage : {}, IsPrevPage : {}, getPrePage : {}, getNextPage : {}, NavigatepageNums : {}"
-				   , page.getTotal()
-				   , page.getPageNum()
-				   , page.getPageSize()
-				   , page.isHasNextPage() 
-				   , page.isHasPreviousPage()
-				   , page.getPrePage()
-				   , page.getNextPage()
-				   , page.getNavigatepageNums());
-		
-		System.out.println(page.getList());
-		
-		model.addAttribute("pageInfo", page);
+		model.addAttribute("pageInfo", boardService.selectAll(vo, pageNum));
 		return "board/list";
 		
 	}
@@ -65,7 +48,7 @@ public class BoardController {
 	// 단건조회
 	@GetMapping("/info")
 	public void info(@RequestParam int bno, Model model) {
-		model.addAttribute("board", boardMapper.selectOne(bno));
+		model.addAttribute("board", boardService.selectOne(bno));
 	}
 	
 	// 등록 페이지
@@ -78,28 +61,28 @@ public class BoardController {
 	public String registerProc(BoardVO vo, MultipartFile file) throws IllegalStateException, IOException {
 		file.transferTo(new File("d:/upload", file.getOriginalFilename()));
 		vo.setAttach(file.getOriginalFilename());
-		boardMapper.insert(vo);
+		boardService.insert(vo);
 		return "redirect:/board/list";
 	}
 	
 	// 수정 페이지
 	@GetMapping("/update")
 	public String update(int bno, Model model) {
-		model.addAttribute("bd", boardMapper.selectOne(bno));
+		model.addAttribute("bd", boardService.selectOne(bno));
 		return "board/register";
 	}
 	
 	// 수정 처리
 	@PostMapping("/update")
 	public String updateProc(BoardVO vo) {
-		boardMapper.update(vo);
+		boardService.update(vo);
 		return "redirect:/board/list";
 	}
 	
 	// 삭제 처리
 	@GetMapping("/delete")
 	public String delete(int bno) {
-		boardMapper.delete(bno);
+		boardService.delete(bno);
 		return "redirect:/board/list";
 	}
 	

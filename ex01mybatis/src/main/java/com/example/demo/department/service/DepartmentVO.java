@@ -1,4 +1,4 @@
-package com.example.demo.emp;
+package com.example.demo.department.service;
 
 public class DepartmentVO {
 	private Integer departmentId;
