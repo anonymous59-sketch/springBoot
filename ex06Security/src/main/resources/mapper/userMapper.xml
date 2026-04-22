@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.user.mapper.UserMapper">
+
+	<select id="selectOne">
+		select ID
+	  		  ,LOGIN_ID
+			  ,PASSWORD
+			  ,FULL_NAME
+			  ,DEPT_NAME
+	  	from   t_user
+	 	where  login_id = #{loginId}
+	</select>
+
+	<select id="selectRole">
+	  	select role_name
+	  	from   t_user_role u
+	  	join   t_role r 
+	  	on     (u.ROLE_ID = r.id )
+	    where  id = #{id}
+	</select>
+
+
+</mapper>
